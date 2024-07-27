@@ -32,25 +32,31 @@ class MessageController extends Controller
     public function createMessage(Request $req){
         $validated_data = $req->validate([
             'sender_id' => 'required|numeric|exists:users,id',
-            'sender_id' => 'required|numeric|existts:user,id',
+            'receiver_id' => 'required|numeric|exists:users,id',
             'message' => 'required|string'
         ]);
-        $message = Message::created($validated_data);
+        $message = Message::create($validated_data);
         return response()->json([
+            'status' => 'success',
             'message' => $message
         ], 201);
     }
 
-    public function updateMessage(Request $req, $id){
+    public function updateMessage(Request $req, $id)
+    {
         $message = Message::find($id);
-        if($message){
-            $validated_data = $req->validate([
-                'sender_id' => 'required|numeric|exists:users,id',
-                'sender_id' => 'required|numeric|existts:user,id',
-                'message' => 'required|string'
-            ]);
-            $message->update($validated_data);
+        if (!$message) {
+            return response()->json(['error' => 'Message not found'], 404);
         }
-        return response()->json(['message' => 'updated successfully']);
+    
+        $validated_data = $req->validate([
+            'sender_id' => 'required|numeric|exists:users,id',
+            'receiver_id' => 'required|numeric|exists:users,id',
+            'message' => 'required|string'
+        ]);
+    
+        $message->update($validated_data);
+    
+        return response()->json(['message' => 'Updated successfully'], 200);
     }
 }
