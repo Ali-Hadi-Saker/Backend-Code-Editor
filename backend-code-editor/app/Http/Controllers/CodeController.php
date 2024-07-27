@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Code;
 use Illuminate\Http\Request;
+use Symfony\Component\Process\Process;
 
 class CodeController extends Controller
 {
@@ -59,5 +60,36 @@ class CodeController extends Controller
             $code->update($validated_data);
         }
         return response()->json(['code' => 'updated successfully'],204);
+    }
+
+
+
+    public function compileCode(Request $req, ){
+
+        $code = $req->input('code');
+
+        //  Python code needs to be in a file to be executed
+        $filePath = storage_path('app/code_snippets/temp_script.py');
+        file_put_contents($filePath, $code);
+
+        // The Process component allows you to run external commands
+        $pythonPath = 'C:\\Python312\\python.exe';
+        $process = new Process([$pythonPath, $filePath]);
+        $process->run();
+
+        // getErrorOutput() provides details about what went wrong
+        if (!$process->isSuccessful()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error during code execution',
+                'details' => $process->getErrorOutput()
+            ], 500);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'output' => $process->getOutput()
+        ], 200);
+
     }
 }

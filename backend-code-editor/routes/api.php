@@ -35,4 +35,5 @@ Route::group([
     Route::post('/', 'createCode');
     Route::delete('/{id}',  'deleteCode');
     Route::put('/{id}',  'updateCode');
+    Route::post('/compile', 'compileCode');
 });
