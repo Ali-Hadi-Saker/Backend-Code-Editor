@@ -78,18 +78,23 @@ class CodeController extends Controller
         $process->run();
 
         // getErrorOutput() provides details about what went wrong
-        if (!$process->isSuccessful()) {
+        if ($process->isSuccessful()) {
+            return response()->json([
+                'status' => 'success',
+                'output' => $process->getOutput()
+            ], 200);
+        } else {
+            // Extract the error message excluding the file path
+            $errorOutput = $process->getErrorOutput();
+            $filteredError = preg_replace('/.*File ".*", line \d+, in <module>\r\n/', '', $errorOutput);
+        
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error during code execution',
-                'details' => $process->getErrorOutput()
-            ], 500);
+                'details' => $filteredError
+            ], 200);
         }
-
-        return response()->json([
-            'status' => 'success',
-            'output' => $process->getOutput()
-        ], 200);
+        
 
     }
 }
