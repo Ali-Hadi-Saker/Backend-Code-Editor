@@ -15,6 +15,7 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 Route::group([
+    // "middleware" => "auth",
     "prefix" => "messages",
     "controller" => MessageController::class
 ], function () {
@@ -25,6 +26,7 @@ Route::group([
     Route::put('/{id}',  'updateMessage');
 });
 Route::group([
+    // "middleware" => "auth",
     "prefix" => "codes",
     "controller" => CodeController::class
 ], function () {
