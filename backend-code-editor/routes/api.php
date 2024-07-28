@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CodeController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\UserController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -36,4 +37,12 @@ Route::group([
     Route::delete('/{id}',  'deleteCode');
     Route::put('/{id}',  'updateCode');
     Route::post('/compile', 'compileCode');
+});
+
+Route::group([
+    // "middleware" => "auth",
+    "prefix" => "users",
+    "controller" => UserController::class
+], function () {
+    Route::get('/', 'getAllUsers');
 });
