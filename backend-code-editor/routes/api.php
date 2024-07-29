@@ -16,7 +16,7 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 Route::group([
-    // "middleware" => "auth",
+    "middleware" => "authenticated",
     "prefix" => "messages",
     "controller" => MessageController::class
 ], function () {
@@ -27,7 +27,7 @@ Route::group([
     Route::put('/{id}',  'updateMessage');
 });
 Route::group([
-    // "middleware" => "auth",
+    "middleware" => "authenticated",
     "prefix" => "codes",
     "controller" => CodeController::class
 ], function () {
@@ -40,10 +40,16 @@ Route::group([
 });
 
 Route::group([
-    // "middleware" => "auth",
+    "middleware" => "authenticated",
     "prefix" => "users",
     "controller" => UserController::class
 ], function () {
     Route::get('/', 'getAllUsers');
-    Route::get('/{id}', 'deleteUser');
+});
+Route::group([
+    "middleware" => ["user.auth", "authenticated"],
+    "prefix" => "users",
+    "controller" => UserController::class
+], function () {
+    Route::delete('/{id}', 'deleteUser');
 });
