@@ -45,4 +45,5 @@ Route::group([
     "controller" => UserController::class
 ], function () {
     Route::get('/', 'getAllUsers');
+    Route::get('/{id}', 'deleteUser');
 });
