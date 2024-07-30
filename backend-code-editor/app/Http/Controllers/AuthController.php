@@ -33,7 +33,7 @@ class AuthController extends Controller
         $user = Auth::user();
         return response()->json([
                 'status' => 'success',
-                'user' => $user,
+                'user_role' => $user->user_role,
                 'authorisation' => [
                     'token' => $token,
                     'type' => 'bearer',
@@ -59,7 +59,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
-            'user' => $user,
+            
             
         ]);
     }

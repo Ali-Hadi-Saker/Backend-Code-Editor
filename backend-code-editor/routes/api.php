@@ -47,9 +47,10 @@ Route::group([
     Route::get('/', 'getAllUsers');
 });
 Route::group([
-    "middleware" => ["user.auth", "authenticated"],
+    "middleware" => ["user.auth"],
     "prefix" => "users",
     "controller" => UserController::class
 ], function () {
     Route::delete('/{id}', 'deleteUser');
+    Route::post('/', 'createUser');
 });
