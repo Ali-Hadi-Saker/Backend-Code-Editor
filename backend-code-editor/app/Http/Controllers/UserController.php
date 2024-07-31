@@ -15,6 +15,15 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function getAllUsersForAdmin(){
+        $users = User::all();
+        return response()->json([
+            'user' => $users
+        ], 200);
+    }
+
+    
+
     public function createUser(Request $req){
 
         $data = $req->input('users');
@@ -68,9 +77,9 @@ class UserController extends Controller
     
             $data = $req->only(['name', 'email', 'password']);
             $rules = [
-                'name' => 'sometimes|required|string',
-                'email' => 'sometimes|required|string|email|unique:users,email,',
-                'password' => 'sometimes|required|string'
+                'name' => 'sometimes|string',
+                'email' => 'sometimes|string|unique:users,email,'.$id,
+                'password' => 'sometimes|string'
             ];
     
             $validator = Validator::make($data, $rules);

@@ -54,4 +54,5 @@ Route::group([
     Route::delete('/{id}', 'deleteUser');
     Route::post('/', 'createUser');
     Route::put('/{id}', 'updateUser');
+    Route::get('/adminUsers', 'getAllUsersForAdmin');
 });
