@@ -73,7 +73,7 @@ class CodeController extends Controller
         file_put_contents($filePath, $code);
 
         // The Process component allows you to run external commands
-        $pythonPath = 'C:\\Python312\\python.exe';
+        $pythonPath = 'C:\Users\moussa.haidar\AppData\Local\Programs\Python\Python312\python.exe';
         $process = new Process([$pythonPath, $filePath]);
         $process->run();
 

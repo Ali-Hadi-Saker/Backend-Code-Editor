@@ -25,6 +25,7 @@ Route::group([
     Route::post('/', 'createMessage');
     Route::delete('/{id}',  'deleteMessage');
     Route::put('/{id}',  'updateMessage');
+    Route::get('/between/{receiver_id}', 'getMessagesByReceiverId');
 });
 Route::group([
     "middleware" => "authenticated",
